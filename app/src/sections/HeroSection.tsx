@@ -5,7 +5,6 @@ const GITHUB_REPO_HREF = 'https://github.com/Jah-yee/wittgenstein-www';
 export default function HeroSection() {
   return (
     <section className="pt-32 pb-16 text-center px-4 relative" id="top">
-      <p className="text-xs font-medium tracking-[0.14em] uppercase text-muted-foreground mb-6">Modality harness</p>
       <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif mb-10 tracking-tight text-foreground leading-[1.12] max-w-5xl mx-auto animate-fade-in-up">
         text-native models, file-native outputs.
       </h1>
@@ -32,16 +31,6 @@ export default function HeroSection() {
           <Github className="h-4 w-4 shrink-0 opacity-90" aria-hidden />
           GitHub
         </a>
-      </div>
-      <div className="mt-8 flex flex-wrap justify-center gap-2">
-        {['Harness engineering', 'Typed codecs', 'Artifacts & replay'].map((label) => (
-          <span
-            key={label}
-            className="text-xs font-medium tracking-[0.06em] uppercase text-secondary-foreground px-3 py-1.5 rounded-full bg-secondary border border-border shadow-[0_0_0_1px_hsl(var(--ring))]"
-          >
-            {label}
-          </span>
-        ))}
       </div>
     </section>
   );
