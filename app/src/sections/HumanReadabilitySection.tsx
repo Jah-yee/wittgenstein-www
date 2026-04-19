@@ -1,107 +1,91 @@
-const features = [
-  { layer: 'L12', neuron: 'N047', description: 'fires for capital cities', confidence: 94 },
-  { layer: 'L8', neuron: 'N213', description: 'tracks geographic references', confidence: 87 },
-  { layer: 'L14', neuron: 'N091', description: 'suppresses hedging language', confidence: 79 },
-  { layer: 'L6', neuron: 'N502', description: 'detects question intent', confidence: 71 },
-];
+import { lazy, Suspense } from 'react';
 
-const weightLabels = [
-  { weight: 'L14 MLP W_out [2048,11]', raw: '0.847', label: 'capital city associations' },
-  { weight: 'L8 attn head 3 V', raw: '-0.312', label: 'geographic suppression' },
-  { weight: 'L12 MLP W_in [512,2048]', raw: '0.601', label: 'factual recall trigger' },
-  { weight: 'L6 attn head 7 Q', raw: '0.229', label: 'question parsing' },
-];
+const PipelineGargantua = lazy(() => import('../components/PipelineGargantua'));
 
 export default function HumanReadabilitySection() {
   return (
-    <section className="py-20 px-4" id="readability">
+    <section
+      className="py-20 px-4 bg-[hsl(var(--deep-dark))] text-[hsl(var(--ivory))] border-y border-[hsl(var(--dark-surface))]"
+      id="s-pipeline"
+    >
       <div className="max-w-5xl mx-auto">
-        <span className="section-number">03</span>
-        <h2 className="text-4xl md:text-5xl font-serif mt-2 mb-4">human readability</h2>
-        <p className="text-gray-500 text-sm max-w-lg mb-10">
-          Model internals are not inherently unreadable. Every activation, weight, and layer state translated into language — with examples showing exactly when each feature fires.
+        <span className="section-number text-[hsl(var(--warm-silver))]">03</span>
+        <h2 className="text-4xl md:text-5xl font-serif mt-2 mb-4 lowercase text-[hsl(var(--ivory))]">pipeline</h2>
+        <p className="text-[hsl(var(--warm-silver))] text-sm max-w-2xl mb-10 leading-relaxed">
+          The locked image pipeline stays narrow: semantic JSON → adapter → frozen decoder → PNG. Decoder ≠ generator, and
+          every run writes a trace under <span className="font-mono text-xs">artifacts/runs/</span>. Audio, sensor, and
+          video follow the same philosophy: structured intent first, local codec logic second, file output last.
         </p>
 
-        <div className="card-border p-6">
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* Detected Features */}
-            <div>
-              <div className="text-xs font-mono text-gray-400 mb-4">detected features</div>
-              <div className="space-y-4">
-                {features.map((f, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <div className="w-16">
-                      <div className="text-xs font-mono text-gray-500">{f.layer}</div>
-                      <div className="text-xs font-mono text-gray-400">{f.neuron}</div>
-                    </div>
-                    <div className="flex-1">
-                      <div className="text-sm text-gray-700">{f.description}</div>
-                      <div className="h-2 bg-gray-100 rounded-full mt-1 overflow-hidden">
-                        <div
-                          className="h-full bg-green-500 rounded-full"
-                          style={{ width: `${f.confidence}%` }}
-                        />
-                      </div>
-                    </div>
-                    <span className="text-xs font-mono text-gray-500 w-8">{f.confidence}%</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Feature Detail */}
-            <div>
-              <div className="text-xs font-mono text-gray-400 mb-4">fires for capital cities</div>
-              <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                <div className="flex items-baseline gap-2 mb-2">
-                  <span className="text-xs font-mono text-green-600">94% confidence</span>
-                </div>
-                <div className="space-y-2">
-                  <div className="text-xs text-gray-500">fires on</div>
-                  <div className="text-sm text-gray-700">The Eiffel Tower is in Paris</div>
-                  <div className="text-sm text-gray-700">London is the capital of England</div>
-                  <div className="text-xs text-gray-500 mt-3">silent on</div>
-                  <div className="text-sm text-gray-400">The weather is cloudy today</div>
-                  <div className="text-sm text-gray-400">She enjoyed the book</div>
-                </div>
-              </div>
-            </div>
+        <div className="relative mb-8 rounded-xl overflow-hidden border border-[hsl(var(--dark-surface))] bg-black shadow-[0_0_0_1px_rgba(0,0,0,0.4)]">
+          <Suspense
+            fallback={
+              <div
+                className="w-full h-[min(22rem,50vh)] md:h-[26rem] animate-pulse bg-[#0a0a0a]"
+                aria-hidden
+              />
+            }
+          >
+            <PipelineGargantua className="relative w-full h-[min(22rem,50vh)] md:h-[26rem] touch-none [&_canvas]:cursor-grab [&_canvas:active]:cursor-grabbing" />
+          </Suspense>
+          <div className="pointer-events-none absolute left-4 top-4 z-10 text-left">
+            <p className="text-[0.65rem] font-medium uppercase tracking-[0.2em] text-white/80 drop-shadow-md">Gargantua</p>
+            <p className="mt-1 text-[0.6rem] uppercase tracking-[0.15em] text-white/40 drop-shadow-md">
+              drag to orbit · WebGL
+            </p>
           </div>
+        </div>
 
-          {/* Internals to Labels Table */}
-          <div className="mt-8 pt-6 border-t border-gray-100">
-            <div className="text-xs font-mono text-gray-400 mb-4">internals / labels</div>
-            <div className="text-xs text-gray-500 mb-3">raw weights mapped to behaviour</div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-xs">
-                <thead>
-                  <tr className="text-left text-gray-400">
-                    <th className="pb-2 font-mono font-normal">weight</th>
-                    <th className="pb-2 font-mono font-normal">raw</th>
-                    <th className="pb-2 font-mono font-normal">label</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {weightLabels.map((wl, i) => (
-                    <tr key={i} className="border-t border-gray-50">
-                      <td className="py-2 font-mono text-gray-600">{wl.weight}</td>
-                      <td className="py-2 font-mono text-gray-500">{wl.raw}</td>
-                      <td className="py-2">
-                        <span className={`px-2 py-0.5 rounded text-xs ${
-                          i === 0 ? 'bg-green-100 text-green-700' :
-                          i === 1 ? 'bg-orange-100 text-orange-700' :
-                          i === 2 ? 'bg-blue-100 text-blue-700' :
-                          'bg-purple-100 text-purple-700'
-                        }`}>
-                          {wl.label}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+        <div className="card-border p-0 overflow-hidden border-[hsl(var(--dark-surface))] bg-[hsl(var(--dark-surface))]">
+          <pre
+            className="font-mono text-[0.7rem] leading-[1.85] p-5 overflow-x-auto whitespace-pre text-[hsl(var(--warm-silver))]"
+            aria-hidden
+          >
+            <span className="text-[hsl(var(--coral))]">User prompt</span>
+            {'\n    →  schema preamble + JSON contract'}
+            {'\n          →  '}
+            <span className="text-[hsl(var(--coral))]">LLM</span>
+            {' (planner)'}
+            {'\n                →  '}
+            <span className="text-[hsl(var(--coral))]">parse</span>
+            {' (zod)'}
+            {'\n                      →  '}
+            <span className="text-[hsl(var(--coral))]">expand</span>
+            {' →  '}
+            <span className="text-[hsl(var(--coral))]">adapter</span>
+            {' (latents)'}
+            {'\n                            →  '}
+            <span className="text-[hsl(var(--coral))]">decoder</span>
+            {' (frozen)'}
+            {'\n                                  →  '}
+            <span className="text-[hsl(var(--coral))]">packageRasterAsPng</span>
+            {'\n                                        →  artifact + manifest'}
+          </pre>
+        </div>
+
+        <div className="mt-6 p-6 rounded-xl border border-[hsl(var(--dark-surface))] bg-[rgba(48,48,46,0.55)]">
+          <div className="text-xs font-medium tracking-[0.06em] uppercase text-[hsl(var(--warm-silver))] mb-4">
+            coverage · scaffold depth
           </div>
+          <div className="flex items-center gap-3 mb-3">
+            <span className="font-mono text-[0.7rem] text-[hsl(var(--warm-silver))] w-14 shrink-0">runtime</span>
+            <div className="flex-1 h-[1.35rem] rounded-md overflow-hidden border border-[hsl(var(--dark-surface))] bg-[rgba(20,20,19,0.5)]">
+              <div className="h-full w-[88%] rounded-md bg-primary" />
+            </div>
+            <span className="font-mono text-[0.7rem] text-[hsl(var(--warm-silver))] w-10 text-right shrink-0">88%</span>
+          </div>
+          <div className="flex items-center gap-3 mb-4">
+            <span className="font-mono text-[0.7rem] text-[hsl(var(--warm-silver))] w-14 shrink-0">codecs</span>
+            <div className="flex-1 h-[1.35rem] rounded-md overflow-hidden border border-[hsl(var(--dark-surface))] bg-[rgba(20,20,19,0.5)]">
+              <div className="h-full w-[42%] rounded-md bg-[hsl(var(--muted-green))]" />
+            </div>
+            <span className="font-mono text-[0.7rem] text-[hsl(var(--warm-silver))] w-10 text-right shrink-0">42%</span>
+          </div>
+          <p className="text-[0.8125rem] text-[hsl(var(--warm-silver))] leading-relaxed">
+            Illustrative only: runtime and shared contracts are ahead of some finished renderers. Image already centers on
+            adapter + frozen decoder wiring; sensor expands deterministic operators; audio renders local WAV artifacts; video
+            still waits on the fuller MP4 branch to be merged back into the main flow.
+          </p>
         </div>
       </div>
     </section>

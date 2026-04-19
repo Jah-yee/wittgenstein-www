@@ -1,73 +1,80 @@
-const suites = [
+const modalityChecks = [
   {
-    name: 'EditBench',
-    subtitle: 'edit fidelity',
-    description: 'Does the edit change only what you intended?',
+    name: 'IR contracts',
+    subtitle: 'schema & parse',
+    description: 'Structured success paths are validated up front so malformed output never silently becomes an artifact.',
     metrics: [
-      { label: 'edit success', value: 94, color: 'bg-green-500' },
-      { label: 'side-effect score', value: 97, color: 'bg-green-500' },
-      { label: 'generalisation', value: 81, color: 'bg-green-500' },
+      { label: 'parse coverage', value: 94, tone: 'primary' as const },
+      { label: 'replay fidelity', value: 91, tone: 'primary' as const },
+      { label: 'manifest completeness', value: 88, tone: 'primary' as const },
     ],
   },
   {
-    name: 'FineTuneDiff',
-    subtitle: 'checkpoint diff',
-    description: 'What actually changed between base and fine-tuned at the weight level.',
+    name: 'Decoder posture',
+    subtitle: 'image path',
+    description: 'Frozen decoders are in-bounds for image reconstruction; the repo is not trying to smuggle in a local diffusion stack.',
     metrics: [
-      { label: 'weight shift coverage', value: 88, color: 'bg-blue-500' },
-      { label: 'behaviour correlation', value: 91, color: 'bg-blue-500' },
-      { label: 'drift detection', value: 76, color: 'bg-blue-500' },
+      { label: 'decoder lock', value: 100, tone: 'green' as const },
+      { label: 'adapter seam tests', value: 76, tone: 'green' as const },
+      { label: 'PNG packaging', value: 89, tone: 'green' as const },
     ],
   },
   {
-    name: 'InterpScore',
-    subtitle: 'interpretability',
-    description: 'How cleanly do features map to human-readable concepts?',
+    name: 'Launch benchmarks',
+    subtitle: 'price · latency · quality',
+    description: 'Lightweight smoke benchmarks track real file outputs for image, tts, audio, and sensor while video catches up.',
     metrics: [
-      { label: 'monosemanticity', value: 73, color: 'bg-orange-500' },
-      { label: 'concept linearity', value: 68, color: 'bg-orange-500' },
-      { label: 'label confidence', value: 85, color: 'bg-orange-500' },
+      { label: 'image editorial', value: 85, tone: 'accent' as const },
+      { label: 'tts launch', value: 85, tone: 'accent' as const },
+      { label: 'sensor ecg', value: 85, tone: 'accent' as const },
     ],
   },
 ];
 
 const runHistory = [
-  { run: 'llama-3.2-1b / base', editBench: 71, fineTuneDiff: 64, interpScore: 59, delta: null },
-  { run: 'llama-3.2-1b / sft-v1', editBench: 78, fineTuneDiff: 79, interpScore: 63, delta: '+9 avg' },
-  { run: 'llama-3.2-1b / sft-v2', editBench: 82, fineTuneDiff: 83, interpScore: 70, delta: '+5 avg' },
-  { run: 'llama-3.2-1b / int4-quant', editBench: 74, fineTuneDiff: 71, interpScore: 61, delta: '-9 avg' },
-  { run: 'llama-3.2-1b / rome-edit-1', editBench: 94, fineTuneDiff: 88, interpScore: 73, delta: '+14 avg' },
+  { run: 'image-editorial', ir: 94, dec: 100, vec: 85, delta: '+5 avg' },
+  { run: 'tts-launch', ir: 93, dec: 100, vec: 85, delta: '+4 avg' },
+  { run: 'audio-music', ir: 92, dec: 100, vec: 85, delta: '+3 avg' },
+  { run: 'sensor-ecg', ir: 95, dec: 100, vec: 85, delta: '+6 avg' },
+  { run: 'video-seam', ir: 90, dec: 100, vec: 62, delta: '-2 avg' },
 ];
+
+const barTone = {
+  primary: 'bg-primary',
+  green: 'bg-[hsl(var(--muted-green))]',
+  accent: 'bg-primary/80',
+};
 
 export default function EvalsSection() {
   return (
-    <section className="py-20 px-4" id="evals">
+    <section className="py-20 px-4 border-y border-border bg-card" id="evals">
       <div className="max-w-5xl mx-auto">
         <span className="section-number">05</span>
-        <h2 className="text-4xl md:text-5xl font-serif mt-2 mb-4">evals</h2>
-        <p className="text-gray-500 text-sm max-w-lg mb-10">
-          Three suites built in. Run them on any checkpoint, edit, or quantization pass. Every run logged, every delta tracked.
+        <h2 className="text-4xl md:text-5xl font-serif mt-2 mb-4 lowercase">checks</h2>
+        <p className="text-muted-foreground text-sm max-w-xl mb-10 leading-relaxed">
+          Contract-shaped checks for schemas, decoders, and launch-ready artifacts. Every real run still leaves traces under{' '}
+          <span className="font-mono text-xs">artifacts/runs/</span>, while the benchmark layer summarizes price, latency,
+          and quality for the current runnable paths.
         </p>
 
-        {/* Suite Cards */}
         <div className="grid md:grid-cols-3 gap-6 mb-10">
-          {suites.map((suite) => (
+          {modalityChecks.map((suite) => (
             <div key={suite.name} className="card-border p-6">
               <div className="flex items-baseline gap-2 mb-1">
-                <h3 className="text-base font-medium">{suite.name}</h3>
-                <span className="text-xs font-mono text-gray-400">{suite.subtitle}</span>
+                <h3 className="text-base font-medium text-foreground">{suite.name}</h3>
+                <span className="text-xs font-mono text-muted-foreground">{suite.subtitle}</span>
               </div>
-              <p className="text-sm text-gray-500 mb-4">{suite.description}</p>
+              <p className="text-sm text-muted-foreground mb-4">{suite.description}</p>
               <div className="space-y-3">
                 {suite.metrics.map((m) => (
                   <div key={m.label}>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-gray-600">{m.label}</span>
-                      <span className="font-mono text-gray-500">{m.value}%</span>
+                      <span className="text-muted-foreground">{m.label}</span>
+                      <span className="font-mono text-muted-foreground">{m.value}%</span>
                     </div>
-                    <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="h-2 bg-secondary rounded-full overflow-hidden border border-border">
                       <div
-                        className={`h-full ${m.color} rounded-full`}
+                        className={`h-full rounded-full ${barTone[m.tone]}`}
                         style={{ width: `${m.value}%` }}
                       />
                     </div>
@@ -78,39 +85,39 @@ export default function EvalsSection() {
           ))}
         </div>
 
-        {/* Run History Table */}
         <div className="card-border p-6">
-          <div className="text-xs font-mono text-gray-400 mb-4">run history</div>
+          <div className="text-xs font-mono text-muted-foreground mb-4">run history</div>
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
-                <tr className="text-left text-gray-400">
+                <tr className="text-left text-muted-foreground">
                   <th className="pb-2 font-mono font-normal">run</th>
-                  <th className="pb-2 font-mono font-normal">EditBench</th>
-                  <th className="pb-2 font-mono font-normal">FineTuneDiff</th>
-                  <th className="pb-2 font-mono font-normal">InterpScore</th>
+                  <th className="pb-2 font-mono font-normal">IR</th>
+                  <th className="pb-2 font-mono font-normal">decoder</th>
+                  <th className="pb-2 font-mono font-normal">launch score</th>
                   <th className="pb-2 font-mono font-normal">delta</th>
                 </tr>
               </thead>
               <tbody>
                 {runHistory.map((rh, i) => (
-                  <tr key={i} className="border-t border-gray-50">
-                    <td className="py-2 font-mono text-gray-600">{rh.run}</td>
-                    <td className="py-2 font-mono text-gray-500">{rh.editBench}</td>
-                    <td className="py-2 font-mono text-gray-500">{rh.fineTuneDiff}</td>
-                    <td className="py-2 font-mono text-gray-500">{rh.interpScore}</td>
+                  <tr key={i} className="border-t border-border">
+                    <td className="py-2 font-mono text-muted-foreground">{rh.run}</td>
+                    <td className="py-2 font-mono text-muted-foreground">{rh.ir}</td>
+                    <td className="py-2 font-mono text-muted-foreground">{rh.dec}</td>
+                    <td className="py-2 font-mono text-muted-foreground">{rh.vec}</td>
                     <td className="py-2">
                       {rh.delta && (
-                        <span className={`px-2 py-0.5 rounded text-xs font-mono ${
-                          rh.delta.startsWith('+') ? 'bg-green-100 text-green-700' :
-                          'bg-red-100 text-red-700'
-                        }`}>
+                        <span
+                          className={`px-2 py-0.5 rounded text-xs font-mono ${
+                            rh.delta.startsWith('+')
+                              ? 'bg-primary/15 text-primary'
+                              : 'bg-destructive/15 text-destructive'
+                          }`}
+                        >
                           {rh.delta}
                         </span>
                       )}
-                      {!rh.delta && (
-                        <span className="text-gray-400">—</span>
-                      )}
+                      {!rh.delta && <span className="text-muted-foreground">—</span>}
                     </td>
                   </tr>
                 ))}

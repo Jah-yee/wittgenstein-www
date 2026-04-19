@@ -1,35 +1,55 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* preview (1).html — Claude / Anthropic (Light) tokens → HSL for shadcn/Tailwind */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
-    --primary: 0 0% 0%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 0%;
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
-    --accent: 45 93% 77%;
-    --accent-foreground: 0 0% 0%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 0 0% 0%;
+    --background: 48 24% 95%;
+    --foreground: 60 3% 8%;
+    --card: 48 33% 97%;
+    --card-foreground: 60 3% 8%;
+    --popover: 48 33% 97%;
+    --popover-foreground: 60 3% 8%;
+    --primary: 14 55% 52%;
+    --primary-foreground: 48 33% 97%;
+    --secondary: 48 20% 91%;
+    --secondary-foreground: 43 5% 29%;
+    --muted: 48 20% 91%;
+    --muted-foreground: 43 5% 36%;
+    --accent: 48 20% 91%;
+    --accent-foreground: 60 3% 8%;
+    --destructive: 0 55% 45%;
+    --destructive-foreground: 48 33% 97%;
+    --border: 48 20% 93%;
+    --input: 48 20% 93%;
+    --ring: 43 8% 78%;
     --radius: 0.5rem;
-    --yellow-accent: 45 93% 77%;
-    --red-accent: 0 84% 60%;
-    --green-accent: 142 71% 45%;
-    --blue-accent: 217 91% 60%;
+    --yellow-accent: 14 55% 52%;
+    --red-accent: 0 55% 45%;
+    --green-accent: 100 12% 37%;
+    --blue-accent: 207 80% 57%;
+    --terracotta: 14 55% 52%;
+    --coral: 16 60% 58%;
+    --parchment: 48 24% 95%;
+    --ivory: 48 33% 97%;
+    --warm-sand: 48 20% 91%;
+    --dark-surface: 60 2% 18%;
+    --deep-dark: 60 3% 8%;
+    --stone: 43 5% 52%;
+    --olive: 43 5% 36%;
+    --muted-green: 100 12% 37%;
+    --warm-silver: 43 8% 68%;
+    --sidebar-background: 48 33% 97%;
+    --sidebar-foreground: 60 3% 8%;
+    --sidebar-primary: 14 55% 52%;
+    --sidebar-primary-foreground: 48 33% 97%;
+    --sidebar-accent: 48 20% 91%;
+    --sidebar-accent-foreground: 60 3% 8%;
+    --sidebar-border: 48 20% 93%;
+    --sidebar-ring: 43 8% 78%;
   }
 }
 
@@ -50,17 +70,21 @@
   .font-serif {
     font-family: Georgia, 'Times New Roman', Times, serif;
   }
+  .font-brand {
+    font-family: 'Cardo', Georgia, 'Times New Roman', serif;
+  }
   .font-mono {
     font-family: 'JetBrains Mono', monospace;
   }
   .section-number {
-    @apply font-mono text-sm text-gray-400;
+    @apply font-mono text-sm text-muted-foreground;
   }
   .card-border {
-    @apply border border-gray-200 rounded-lg bg-white;
+    @apply border border-border rounded-lg bg-card shadow-sm;
   }
   .yellow-btn {
-    @apply bg-yellow-200 hover:bg-yellow-300 text-black font-medium rounded-full px-6 py-3 transition-colors;
+    @apply bg-primary text-primary-foreground font-medium rounded-full px-6 py-3 transition-colors hover:opacity-90;
+    box-shadow: 0 0 0 1px hsl(var(--primary));
   }
 }
 
@@ -76,7 +100,8 @@
 }
 
 @keyframes pulse-slow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.6;
   }
   50% {

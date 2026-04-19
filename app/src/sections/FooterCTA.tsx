@@ -1,47 +1,43 @@
-import { MessageSquare, Bot, Search } from 'lucide-react';
-
-const aiButtons = [
-  { label: 'Ask ChatGPT', icon: MessageSquare },
-  { label: 'Ask Claude', icon: Bot },
-  { label: 'Ask Perplexity', icon: Search },
-];
-
-const socialLinks = [
-  { name: 'Discord', href: '#' },
-  { name: 'YouTube', href: '#' },
-  { name: 'X', href: '#' },
-  { name: 'GitHub', href: '#' },
-  { name: 'LinkedIn', href: '#' },
-];
-
 export default function FooterCTA() {
   return (
-    <section className="py-20 px-4 border-t border-gray-100">
+    <section className="py-20 px-4 border-t border-border bg-secondary" id="footer-cta">
       <div className="max-w-5xl mx-auto text-center">
-        <h2 className="text-2xl md:text-3xl font-serif mb-6">
-          Not sure if Aquin is right for you?
-        </h2>
+        <h2 className="text-2xl md:text-3xl font-serif mb-6 text-foreground">Want the shortest useful path?</h2>
         <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {aiButtons.map((btn) => (
-            <button
-              key={btn.label}
-              className="flex items-center gap-2 px-5 py-2.5 border border-gray-200 rounded-full text-sm hover:border-gray-400 transition-colors"
-            >
-              <btn.icon className="w-4 h-4" />
-              {btn.label}
-            </button>
-          ))}
+          <a
+            href="#top"
+            className="inline-flex items-center px-5 py-2.5 rounded-md text-sm font-medium bg-card text-secondary-foreground border border-transparent shadow-[0_0_0_1px_hsl(var(--ring))] hover:bg-background hover:shadow-[0_0_0_1px_hsl(var(--stone))] transition-colors"
+          >
+            Back to overview
+          </a>
+          <span
+            className="inline-flex items-center px-5 py-2.5 rounded-md text-sm font-medium bg-card text-secondary-foreground border border-transparent shadow-[0_0_0_1px_hsl(var(--ring))] cursor-default"
+            title="In repository"
+          >
+            docs/modality-launch-surface.md
+          </span>
+          <span
+            className="inline-flex items-center px-5 py-2.5 rounded-md text-sm font-medium bg-card text-secondary-foreground border border-transparent shadow-[0_0_0_1px_hsl(var(--ring))] cursor-default"
+            title="From monorepo root"
+          >
+            pnpm launch:check
+          </span>
         </div>
 
-        {/* Social Links */}
-        <div className="flex justify-center gap-6 mb-12">
-          {socialLinks.map((link) => (
+        <div className="flex justify-center gap-4 flex-wrap" aria-label="Section anchors">
+          {[
+            { href: '#s-thesis', label: 'T', title: 'Thesis' },
+            { href: '#s-layers', label: 'L', title: 'Layers' },
+            { href: '#s-pipeline', label: 'P', title: 'Pipeline' },
+            { href: '#s-codecs', label: 'C', title: 'Codecs' },
+          ].map((item) => (
             <a
-              key={link.name}
-              href={link.href}
-              className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+              key={item.href}
+              href={item.href}
+              title={item.title}
+              className="w-10 h-10 rounded-full bg-card flex items-center justify-center text-xs font-semibold text-muted-foreground shadow-[0_0_0_1px_hsl(var(--ring))] hover:bg-background hover:text-foreground transition-colors"
             >
-              <span className="text-xs font-medium text-gray-600">{link.name[0]}</span>
+              {item.label}
             </a>
           ))}
         </div>

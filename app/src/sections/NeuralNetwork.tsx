@@ -17,29 +17,25 @@ const inputNodes: Node[] = [
 ];
 
 const layerNodes: Node[] = [
-  // Column 1
   { id: 'L0', x: 180, y: 60, label: 'L0' },
   { id: 'L1', x: 180, y: 130, label: 'L1' },
   { id: 'L2', x: 180, y: 200, label: 'L2' },
   { id: 'L3', x: 180, y: 270, label: 'L3' },
-  // Column 2
   { id: 'L4', x: 320, y: 60, label: 'L4' },
   { id: 'L5', x: 320, y: 130, label: 'L5' },
   { id: 'L6', x: 320, y: 200, label: 'L6' },
-  { id: 'L7', x: 320, y: 270, label: 'L7', color: '#FDE68A', percentage: '23%' },
-  // Column 3
-  { id: 'L8', x: 460, y: 60, label: 'L8', color: '#FCA5A5', percentage: '49%' },
-  { id: 'L9', x: 460, y: 130, label: 'L9', color: '#FECACA', percentage: '65%' },
-  { id: 'L10', x: 460, y: 200, label: 'L10', color: '#FCA5A5', percentage: '52%' },
-  { id: 'L11', x: 460, y: 270, label: 'L11', color: '#FECACA', percentage: '48%' },
-  // Column 4
-  { id: 'L12', x: 600, y: 60, label: 'L12', color: '#FDE68A', percentage: '21%' },
+  { id: 'L7', x: 320, y: 270, label: 'L7', color: 'rgba(201, 100, 66, 0.35)', percentage: '23%' },
+  { id: 'L8', x: 460, y: 60, label: 'L8', color: 'rgba(201, 100, 66, 0.45)', percentage: '49%' },
+  { id: 'L9', x: 460, y: 130, label: 'L9', color: 'rgba(217, 119, 87, 0.35)', percentage: '65%' },
+  { id: 'L10', x: 460, y: 200, label: 'L10', color: 'rgba(201, 100, 66, 0.4)', percentage: '52%' },
+  { id: 'L11', x: 460, y: 270, label: 'L11', color: 'rgba(217, 119, 87, 0.35)', percentage: '48%' },
+  { id: 'L12', x: 600, y: 60, label: 'L12', color: 'rgba(201, 100, 66, 0.35)', percentage: '21%' },
   { id: 'L13', x: 600, y: 130, label: 'L13' },
   { id: 'L14', x: 600, y: 200, label: 'L14' },
   { id: 'L15', x: 600, y: 270, label: 'L15' },
 ];
 
-const outputNode: Node = { id: 'out', x: 730, y: 160, label: 'out', color: '#86EFAC', isOutput: true };
+const outputNode: Node = { id: 'out', x: 730, y: 160, label: 'out', color: '#5c6b54', isOutput: true };
 
 export default function NeuralNetwork() {
   const svgRef = useRef<SVGSVGElement>(null);
@@ -48,13 +44,11 @@ export default function NeuralNetwork() {
 
   const getConnections = () => {
     const connections: { from: Node; to: Node }[] = [];
-    // Input to first layer
     inputNodes.forEach((input) => {
       layerNodes.slice(0, 4).forEach((layer) => {
         connections.push({ from: input, to: layer });
       });
     });
-    // Between layer columns
     for (let col = 0; col < 3; col++) {
       const fromStart = col * 4;
       const toStart = (col + 1) * 4;
@@ -67,7 +61,6 @@ export default function NeuralNetwork() {
         }
       }
     }
-    // Last layer to output
     layerNodes.slice(12, 16).forEach((layer) => {
       connections.push({ from: layer, to: outputNode });
     });
@@ -77,14 +70,13 @@ export default function NeuralNetwork() {
   const connections = getConnections();
 
   return (
-    <div className="flex justify-center py-8">
+    <div className="flex justify-center py-8 bg-background">
       <svg
         ref={svgRef}
         viewBox="0 0 800 340"
         className="w-full max-w-4xl"
         style={{ overflow: 'visible' }}
       >
-        {/* Connection lines */}
         {connections.map((conn, i) => (
           <line
             key={i}
@@ -92,23 +84,21 @@ export default function NeuralNetwork() {
             y1={conn.from.y + 20}
             x2={conn.to.x + 20}
             y2={conn.to.y + 20}
-            stroke="#E5E7EB"
+            stroke="#d1cfc5"
             strokeWidth="1"
-            opacity="0.6"
+            opacity="0.9"
           />
         ))}
 
-        {/* Nodes */}
         {allNodes.map((node) => (
           <g key={node.id}>
             <circle
               cx={node.x + 20}
               cy={node.y + 20}
               r={node.isOutput ? 24 : 20}
-              fill={node.color || (inputNodes.includes(node) ? '#374151' : '#F9FAFB')}
-              stroke={node.color ? 'none' : '#E5E7EB'}
+              fill={node.color || (inputNodes.includes(node) ? '#30302e' : '#faf9f5')}
+              stroke={node.color ? 'none' : '#e8e6dc'}
               strokeWidth="1"
-              className={node.color ? '' : ''}
             />
             <text
               x={node.x + 20}
@@ -116,7 +106,15 @@ export default function NeuralNetwork() {
               textAnchor="middle"
               dominantBaseline="central"
               className="text-xs font-mono"
-              fill={node.color || inputNodes.includes(node) ? '#000' : '#6B7280'}
+              fill={
+                node.isOutput
+                  ? '#faf9f5'
+                  : inputNodes.includes(node)
+                    ? '#faf9f5'
+                    : node.color
+                      ? '#141413'
+                      : '#5e5d59'
+              }
               fontSize="11"
             >
               {node.label}
@@ -127,7 +125,7 @@ export default function NeuralNetwork() {
                 y={node.y - 8}
                 textAnchor="middle"
                 className="text-xs font-mono"
-                fill="#6B7280"
+                fill="#87867f"
                 fontSize="10"
               >
                 {node.percentage}
@@ -136,17 +134,16 @@ export default function NeuralNetwork() {
           </g>
         ))}
 
-        {/* Output label */}
         <text
           x={outputNode.x + 54}
           y={outputNode.y + 20}
           textAnchor="start"
           dominantBaseline="central"
           className="text-sm font-mono"
-          fill="#6B7280"
+          fill="#5e5d59"
           fontSize="12"
         >
-          Paris
+          artifact
         </text>
       </svg>
     </div>

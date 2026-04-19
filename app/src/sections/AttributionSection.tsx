@@ -1,57 +1,48 @@
-const promptTokens = ['What', 'is', 'the', 'capital', 'of', 'France', '?'];
-const responseTokens = ['The', 'capital', 'of', 'France', 'is', 'Paris', '.'];
-
-const layerPredictions = [
-  { layer: 1, word: 'the', pct: 12 },
-  { layer: 4, word: 'capital', pct: 34 },
-  { layer: 8, word: 'city', pct: 58 },
-  { layer: 14, word: 'Paris', pct: 81 },
-  { layer: 16, word: 'Paris', pct: 97 },
-];
+const promptTokens = ['Create', 'a', 'traceable', 'PNG', 'artifact', 'from', 'text'];
+const responseTokens = ['scene', 'spec', 'JSON', 'latents', 'manifest'];
 
 export default function AttributionSection() {
   return (
-    <section className="py-20 px-4" id="attribution">
+    <section className="py-20 px-4 bg-background" id="s-thesis">
       <div className="max-w-5xl mx-auto">
         <span className="section-number">01</span>
-        <h2 className="text-4xl md:text-5xl font-serif mt-2 mb-4">attribution</h2>
-        <p className="text-gray-500 text-sm max-w-md mb-10">
-          Every response token traces back to the prompt tokens that caused it. Watch the signal
-          flow through each layer until the answer locks in.
+        <h2 className="text-4xl md:text-5xl font-serif mt-2 mb-4 lowercase">thesis</h2>
+        <p className="text-muted-foreground text-sm max-w-xl mb-10 leading-relaxed">
+          Agent = Model + Harness, extended with modality codecs. The LLM remains the planner; the harness owns schema
+          injection, validation, retries, budgets, sandboxing, telemetry, and artifact traces.
         </p>
 
         <div className="grid md:grid-cols-2 gap-6">
-          {/* Prompt Card */}
           <div className="card-border p-6">
-            <div className="text-xs font-mono text-gray-400 mb-4">prompt / causal weights</div>
+            <div className="text-xs font-mono text-muted-foreground mb-4">prompt / intent</div>
             <div className="flex flex-wrap gap-1.5 mb-6">
               {promptTokens.map((token, i) => (
                 <span
                   key={i}
-                  className={`px-2 py-1 text-sm rounded ${
-                    token === 'capital' || token === 'France'
-                      ? 'bg-yellow-200 text-black'
-                      : 'bg-gray-100 text-gray-700'
+                  className={`px-2 py-1 text-sm rounded-md border shadow-[0_0_0_1px_hsl(var(--ring))] ${
+                    token === 'traceable' || token === 'PNG' || token === 'artifact'
+                      ? 'bg-primary/15 text-foreground border-primary/35'
+                      : 'bg-secondary text-secondary-foreground'
                   }`}
                 >
                   {token}
                 </span>
               ))}
             </div>
-            <div className="flex justify-center mb-6">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-400">
+            <div className="flex justify-center mb-6 text-muted-foreground">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M12 5v14M5 12l7 7 7-7" />
               </svg>
             </div>
-            <div className="text-xs font-mono text-gray-400 mb-4">response / inherited signal</div>
+            <div className="text-xs font-mono text-muted-foreground mb-4">structured IR</div>
             <div className="flex flex-wrap gap-1.5">
               {responseTokens.map((token, i) => (
                 <span
                   key={i}
-                  className={`px-2 py-1 text-sm rounded ${
-                    token === 'capital' || token === 'France' || token === 'Paris'
-                      ? 'bg-yellow-200 text-black'
-                      : 'bg-gray-100 text-gray-700'
+                  className={`px-2 py-1 text-sm rounded-md border shadow-[0_0_0_1px_hsl(var(--ring))] ${
+                    ['scene', 'spec', 'latents', 'manifest'].includes(token)
+                      ? 'bg-primary/15 text-foreground border-primary/35'
+                      : 'bg-secondary text-secondary-foreground'
                   }`}
                 >
                   {token}
@@ -60,27 +51,19 @@ export default function AttributionSection() {
             </div>
           </div>
 
-          {/* Logit Lens Card */}
           <div className="card-border p-6">
-            <div className="text-xs font-mono text-gray-400 mb-4">logit lens / prediction per layer</div>
-            <p className="text-sm text-gray-500 mb-6 leading-relaxed">
-              At L1 the model guesses &quot;the&quot;. By L8 it&apos;s converging on &quot;city&quot;. At L16, Paris is locked at 97% — the exact moment the answer forms.
+            <div className="text-xs font-mono text-muted-foreground mb-4">why it scales</div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Modern harnesses usually stop at tools and control flow. Wittgenstein adds a stricter seam:{' '}
+              <strong className="text-foreground font-semibold">structured IR, codec boundaries, frozen decoders,</strong>{' '}
+              and optional tiny adapters. When the trade-off is right, post-training moves to the harness bundle instead of
+              the base model. Every run leaves artifacts under{' '}
+              <span className="font-mono text-xs text-secondary-foreground">artifacts/runs/</span>.
             </p>
-            <div className="space-y-4">
-              {layerPredictions.map((lp) => (
-                <div key={lp.layer} className="flex items-center gap-3">
-                  <span className="text-xs font-mono text-gray-400 w-14">layer {lp.layer}</span>
-                  <div className="flex-1 h-6 bg-gray-50 rounded overflow-hidden">
-                    <div
-                      className="h-full bg-blue-500 rounded transition-all duration-1000"
-                      style={{ width: `${lp.pct}%` }}
-                    />
-                  </div>
-                  <span className="text-xs font-mono text-gray-600 w-12">{lp.word}</span>
-                  <span className="text-xs font-mono text-gray-400 w-8 text-right">{lp.pct}%</span>
-                </div>
-              ))}
-            </div>
+            <p className="text-sm text-muted-foreground leading-relaxed mt-4">
+              That makes the project legible to both researchers and builders: you can inspect the contract, replay the run,
+              and improve one modality without rewriting the whole system.
+            </p>
           </div>
         </div>
       </div>

@@ -1,56 +1,33 @@
-function SlicedText({ text }: { text: string }) {
-  const sliceCount = 7;
-  const sliceHeight = 100 / sliceCount;
-
-  return (
-    <div className="relative inline-block overflow-hidden" style={{ lineHeight: 1 }}>
-      {text.split('').map((char, charIndex) => (
-        <span key={charIndex} className="relative inline-block" style={{ marginRight: char === ' ' ? '0.3em' : '0.02em' }}>
-          <span className="sr-only">{char}</span>
-          <span aria-hidden="true" className="relative inline-block overflow-hidden" style={{ height: `${sliceCount * 8}px` }}>
-            {Array.from({ length: sliceCount }).map((_, sliceIndex) => {
-              const offset = Math.sin(sliceIndex * 0.8 + charIndex * 0.5) * 3;
-              return (
-                <span
-                  key={sliceIndex}
-                  className="absolute left-0 block font-serif"
-                  style={{
-                    top: `${sliceIndex * sliceHeight}%`,
-                    height: `${sliceHeight + 1}%`,
-                    transform: `translateX(${offset}px)`,
-                    clipPath: `inset(${sliceIndex * sliceHeight}% 0 ${100 - (sliceIndex + 1) * sliceHeight}% 0)`,
-                    fontSize: 'inherit',
-                    lineHeight: `${sliceCount * 8}px`,
-                  }}
-                >
-                  {char}
-                </span>
-              );
-            })}
-          </span>
-        </span>
-      ))}
-    </div>
-  );
-}
-
 export default function HeroSection() {
   return (
-    <section className="pt-32 pb-16 text-center px-4">
-      <p className="text-sm text-gray-500 mb-6">
-        Aquin is the research company using interpretability to
-      </p>
-      <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-serif mb-10 tracking-tight">
-        <SlicedText text="understanding intelligence" />
+    <section className="pt-32 pb-16 text-center px-4 relative" id="top">
+      <p className="text-xs font-medium tracking-[0.14em] uppercase text-muted-foreground mb-6">Modality harness</p>
+      <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif mb-10 tracking-tight text-foreground leading-[1.12] max-w-5xl mx-auto animate-fade-in-up">
+        text-native models, file-native outputs.
       </h1>
-      <p className="text-base text-gray-500 max-w-lg mx-auto mb-8 leading-relaxed">
-        Full-stack AI observability with tracing training data provenance, inspecting
-        model weights to find where specific behaviors and knowledge are stored,
-        and editing them directly without fine-tuning or retraining.
+      <p className="text-base text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">
+        A <strong className="text-foreground font-semibold">harness-first portability layer</strong> for text-native LLMs.
+        The model stays a planner; codecs, adapters, decoders, mixers, and deterministic runtimes turn structured intent
+        into real files such as <strong className="text-foreground font-semibold">PNG, WAV, HTML, JSON,</strong> and,
+        once the video branch is fully wired back in, <strong className="text-foreground font-semibold">MP4</strong>.
       </p>
-      <button className="yellow-btn">
-        Inspect Elements for LLMs
-      </button>
+      <p className="text-sm text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed">
+        The point is not to pretend a text model is already a giant native VLM. The point is to make multimodal outputs
+        practical through contracts, local compute, and portable codec logic.
+      </p>
+      <a href="#s-layers" className="yellow-btn inline-block">
+        Inspect the five layers
+      </a>
+      <div className="mt-8 flex flex-wrap justify-center gap-2">
+        {['Harness engineering', 'Typed codecs', 'Artifacts & replay'].map((label) => (
+          <span
+            key={label}
+            className="text-xs font-medium tracking-[0.06em] uppercase text-secondary-foreground px-3 py-1.5 rounded-full bg-secondary border border-border shadow-[0_0_0_1px_hsl(var(--ring))]"
+          >
+            {label}
+          </span>
+        ))}
+      </div>
     </section>
   );
 }

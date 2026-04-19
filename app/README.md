@@ -1,73 +1,87 @@
-# React + TypeScript + Vite
+# Wittgenstein Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This folder contains the standalone website app for `wittgenstein.wtf`.
 
-Currently, two official plugins are available:
+It is a Vite + React + TypeScript build, kept separate from the main monorepo site scaffold so it can be iterated on and deployed independently.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## What This Site Is For
 
-## React Compiler
+The site is a public-facing narrative layer for the project. It should:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- explain the thesis clearly
+- present the five-layer architecture without flattening it into marketing copy
+- stay aligned with the real repository and docs
+- remain visually stable while text evolves
 
-## Expanding the ESLint configuration
+The UI and section framework are intentionally fixed. Most iteration should happen in the copy.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Local Development
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The dev server runs on `http://localhost:3000`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Production Build
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build
+npm run preview
 ```
+
+The preview server runs on `http://localhost:4173`.
+
+## Validation
+
+```bash
+npm run check
+```
+
+This runs lint plus a full production build.
+
+## Vercel Deployment
+
+This app is configured for Vercel via [`vercel.json`](./vercel.json).
+
+From this directory:
+
+```bash
+vercel
+vercel --prod
+```
+
+Notes:
+
+- The app is a Vite SPA, so `vercel.json` includes a rewrite to `index.html`.
+- The canonical production host is `https://wittgenstein.wtf`.
+- `public/CNAME` is harmless for static hosting portability, but Vercel itself uses project-domain settings rather than GitHub Pages style CNAME handling.
+
+## Domain
+
+The intended production domain is:
+
+```text
+wittgenstein.wtf
+```
+
+Static hosting helpers included in `public/`:
+
+- `CNAME`
+- `robots.txt`
+- `sitemap.xml`
+- `site.webmanifest`
+- `favicon.svg`
+
+## Content Guidelines
+
+- Keep the macro structure stable:
+  - Thesis
+  - Layers
+  - Pipeline
+  - Codecs
+- Do not rewrite the UI or component layout unless explicitly requested.
+- Prefer accurate engineering language over exaggerated product claims.
+- When the repo is ahead of the site, update the copy.
+- When the site is ahead of the repo, pull the copy back to reality.

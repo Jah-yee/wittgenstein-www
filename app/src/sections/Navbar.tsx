@@ -1,27 +1,31 @@
-import { Zap } from 'lucide-react';
-
 export default function Navbar() {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-gray-100">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border shadow-[0_0_0_1px_rgba(209,207,197,0.35)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <a href="/" className="flex items-center gap-1.5">
-            <Zap className="w-5 h-5 fill-black" />
-            <span className="text-base font-semibold tracking-tight">Aquin</span>
-            <span className="text-base font-normal text-gray-500">Labs</span>
+          <a href="#top" className="flex items-center">
+            <span className="font-brand text-[1.1875rem] md:text-xl font-normal tracking-[-0.02em] text-foreground">
+              Wittgenstein
+            </span>
           </a>
           <div className="flex items-center gap-6">
-            <a href="#research" className="text-sm text-gray-700 hover:text-black transition-colors">
+            <a href="#s-thesis" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               Research
             </a>
-            <a href="#policies" className="text-sm text-gray-700 hover:text-black transition-colors">
-              Policies
+            <a href="#s-layers" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Layers
+            </a>
+            <a href="#s-pipeline" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Pipeline
+            </a>
+            <a href="#s-codecs" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Codecs
             </a>
             <a
-              href="#login"
-              className="text-sm px-4 py-1.5 border border-black rounded-full hover:bg-black hover:text-white transition-colors"
+              href="#footer-cta"
+              className="text-sm px-4 py-1.5 rounded-xl bg-primary text-primary-foreground font-medium shadow-[0_0_0_1px_hsl(var(--primary))] hover:opacity-90 transition-opacity"
             >
-              Login
+              Start
             </a>
           </div>
         </div>
