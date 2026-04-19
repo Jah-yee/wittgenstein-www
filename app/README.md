@@ -72,7 +72,7 @@ Static hosting helpers included in `public/`:
 - `robots.txt`
 - `sitemap.xml`
 - `site.webmanifest`
-- `favicon.svg`
+- `favicon.ico`, `favicon-16.png`, `favicon-32.png`, `apple-touch-icon.png`, `icon-192.png`
 
 ## Content Guidelines
 

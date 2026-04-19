@@ -1,13 +1,13 @@
 import { Github } from 'lucide-react';
 
+import { HeroAnimatedTitle } from '@/components/HeroAnimatedTitle';
+
 const GITHUB_REPO_HREF = 'https://github.com/Jah-yee/wittgenstein-www';
 
 export default function HeroSection() {
   return (
     <section className="pt-32 pb-16 text-center px-4 relative" id="top">
-      <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif mb-10 tracking-tight text-foreground leading-[1.12] max-w-5xl mx-auto animate-fade-in-up">
-        text-native models, file-native outputs.
-      </h1>
+      <HeroAnimatedTitle className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif mb-10 tracking-tight text-foreground leading-[1.12] max-w-5xl mx-auto animate-fade-in-up" />
       <p className="text-base text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">
         A <strong className="text-foreground font-semibold">harness-first portability layer</strong> for text-native LLMs.
         The model stays a planner; codecs, adapters, decoders, mixers, and deterministic runtimes turn structured intent
