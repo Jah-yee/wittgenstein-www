@@ -1,3 +1,7 @@
+import { Github } from 'lucide-react';
+
+const GITHUB_REPO_HREF = 'https://github.com/Jah-yee/wittgenstein-www';
+
 export default function HeroSection() {
   return (
     <section className="pt-32 pb-16 text-center px-4 relative" id="top">
@@ -15,9 +19,20 @@ export default function HeroSection() {
         The point is not to pretend a text model is already a giant native VLM. The point is to make multimodal outputs
         practical through contracts, local compute, and portable codec logic.
       </p>
-      <a href="#s-layers" className="yellow-btn inline-block">
-        Inspect the five layers
-      </a>
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <a href="#s-layers" className="yellow-btn inline-flex items-center justify-center">
+          Inspect the five layers
+        </a>
+        <a
+          href={GITHUB_REPO_HREF}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full border border-transparent bg-card px-6 py-3 text-sm font-medium text-secondary-foreground shadow-[0_0_0_1px_hsl(var(--ring))] transition-colors hover:bg-background hover:shadow-[0_0_0_1px_hsl(var(--stone))]"
+        >
+          <Github className="h-4 w-4 shrink-0 opacity-90" aria-hidden />
+          GitHub
+        </a>
+      </div>
       <div className="mt-8 flex flex-wrap justify-center gap-2">
         {['Harness engineering', 'Typed codecs', 'Artifacts & replay'].map((label) => (
           <span

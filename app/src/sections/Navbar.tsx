@@ -4,7 +4,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <a href="#top" className="flex items-center">
-            <span className="font-brand text-[1.1875rem] md:text-xl font-normal tracking-[-0.02em] text-foreground">
+            <span className="font-brand text-[1.3125rem] md:text-[1.4rem] font-bold tracking-[-0.02em] text-foreground">
               Wittgenstein
             </span>
           </a>
