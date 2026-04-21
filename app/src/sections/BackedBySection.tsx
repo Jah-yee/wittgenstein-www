@@ -20,6 +20,13 @@ const partners = [
     logo: '/logos/effector.png',
     logoAlt: 'Effector',
   },
+  {
+    id: 'loupe',
+    name: 'loupe',
+    href: 'https://github.com/Jah-yee/loupe/',
+    logo: '/logos/loupe.png',
+    logoAlt: 'loupe',
+  },
 ] as const;
 
 export default function BackedBySection() {
