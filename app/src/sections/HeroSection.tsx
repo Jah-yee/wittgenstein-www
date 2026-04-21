@@ -26,7 +26,7 @@ export default function HeroSection() {
           href={GITHUB_REPO_HREF}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-full border border-transparent bg-card px-6 py-3 text-sm font-medium text-secondary-foreground shadow-[0_0_0_1px_hsl(var(--ring))] transition-colors hover:bg-background hover:shadow-[0_0_0_1px_hsl(var(--stone))]"
+          className="inline-flex items-center gap-2 rounded-full border border-[#020408] bg-[#020408] px-6 py-3 text-sm font-medium text-[#FAF9F5] shadow-[0_0_0_1px_#020408] transition-colors hover:bg-[#0a0d14]"
         >
           <Github className="h-4 w-4 shrink-0 opacity-90" aria-hidden />
           GitHub
