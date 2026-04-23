@@ -156,6 +156,8 @@
         hsl(var(--foreground) / 0.075) 4px
       );
     mix-blend-mode: multiply;
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 0 60%, transparent 88%);
+    mask-image: radial-gradient(ellipse at center, #000 0 60%, transparent 88%);
     opacity: 0;
     transform: translate3d(0, 0, 0);
     transition:
