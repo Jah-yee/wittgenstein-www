@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-/** Lower than original 550 — large perf win on integrated GPUs & mobile. */
-const RAYMARCH_STEPS = 280;
+/** Original look (550). Perf comes mainly from not rendering off-screen / in background. */
+const RAYMARCH_STEPS = 550;
 
 const vertexShader = `
   varying vec2 vUv;
@@ -219,7 +219,19 @@ function getPixelRatioCap(): number {
   const coarse = window.matchMedia?.('(pointer: coarse)').matches ?? false;
   const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
   if (saveData || coarse) return Math.min(dpr, 1);
-  return Math.min(dpr, 1.5);
+  // Match typical crispness on Retina; cap avoids extreme mobile/webview DPR blow-ups.
+  return Math.min(dpr, 2);
+}
+
+/** Same vertical inset idea as IntersectionObserver rootMargin — keep logic in one place. */
+const VIEWPORT_PLAY_MARGIN_FRAC = 0.12;
+
+function isInPlayRegion(el: HTMLElement, marginFrac: number = VIEWPORT_PLAY_MARGIN_FRAC): boolean {
+  const r = el.getBoundingClientRect();
+  const vh = window.innerHeight || 0;
+  if (r.width <= 0 || r.height <= 0) return false;
+  const m = vh * marginFrac;
+  return r.bottom > m && r.top < vh - m;
 }
 
 export default function PipelineGargantua({ className }: PipelineGargantuaProps) {
@@ -234,7 +246,8 @@ export default function PipelineGargantua({ className }: PipelineGargantuaProps)
     const renderer = new THREE.WebGLRenderer({
       antialias: false,
       alpha: false,
-      powerPreference: 'low-power',
+      // Prefer the stronger GPU on dual-GPU machines; we already stop rendering off-screen.
+      powerPreference: 'default',
       stencil: false,
       depth: false,
     });
@@ -337,17 +350,16 @@ export default function PipelineGargantua({ className }: PipelineGargantuaProps)
       },
       {
         root: null,
-        rootMargin: '0px',
+        // Negative top/bottom: must be more "in view" than a sliver at the edge — less GPU
+        // work while the user is just scrolling past, fewer jank spikes near the section.
+        rootMargin: '-12% 0px -12% 0px',
         threshold: [0, 0.02, 0.1, 0.25],
       },
     );
     io.observe(container);
 
     requestAnimationFrame(() => {
-      const r = container.getBoundingClientRect();
-      const vh = window.innerHeight || 0;
-      const inView = r.width > 0 && r.bottom > 0 && r.top < vh && r.height > 0;
-      if (inView && !reducedMotion.matches) start();
+      if (isInPlayRegion(container) && !reducedMotion.matches) start();
     });
 
     const onVisibility = () => {
@@ -355,9 +367,7 @@ export default function PipelineGargantua({ className }: PipelineGargantuaProps)
         stop();
         return;
       }
-      const r = container.getBoundingClientRect();
-      const vh = window.innerHeight || 0;
-      if (r.width > 0 && r.bottom > 0 && r.top < vh && !reducedMotion.matches) start();
+      if (isInPlayRegion(container) && !reducedMotion.matches) start();
     };
     document.addEventListener('visibilitychange', onVisibility);
 
