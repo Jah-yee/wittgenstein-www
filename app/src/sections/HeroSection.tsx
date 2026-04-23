@@ -2,7 +2,7 @@ import { Github } from 'lucide-react';
 
 import { HeroAnimatedTitle } from '@/components/HeroAnimatedTitle';
 
-const GITHUB_REPO_HREF = 'https://github.com/Moapacha/wittgenstein';
+const GITHUB_REPO_HREF = 'https://github.com/wittgenstein-cli/wittgenstein';
 
 export default function HeroSection() {
   return (
