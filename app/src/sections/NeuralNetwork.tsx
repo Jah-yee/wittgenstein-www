@@ -24,12 +24,13 @@ const layerNodes: Node[] = [
   { id: 'L4', x: 320, y: 60, label: 'L4' },
   { id: 'L5', x: 320, y: 130, label: 'L5' },
   { id: 'L6', x: 320, y: 200, label: 'L6' },
-  { id: 'L7', x: 320, y: 270, label: 'L7', color: 'rgba(201, 100, 66, 0.35)', percentage: '23%' },
-  { id: 'L8', x: 460, y: 60, label: 'L8', color: 'rgba(201, 100, 66, 0.45)', percentage: '49%' },
-  { id: 'L9', x: 460, y: 130, label: 'L9', color: 'rgba(217, 119, 87, 0.35)', percentage: '65%' },
-  { id: 'L10', x: 460, y: 200, label: 'L10', color: 'rgba(201, 100, 66, 0.4)', percentage: '52%' },
-  { id: 'L11', x: 460, y: 270, label: 'L11', color: 'rgba(217, 119, 87, 0.35)', percentage: '48%' },
-  { id: 'L12', x: 600, y: 60, label: 'L12', color: 'rgba(201, 100, 66, 0.35)', percentage: '21%' },
+  // Opaque fills (old rgba saw edges through the circle). Colors ≈ old tint on #faf9f5.
+  { id: 'L7', x: 320, y: 270, label: 'L7', color: '#e9c5b6', percentage: '23%' },
+  { id: 'L8', x: 460, y: 60, label: 'L8', color: '#e4b6a4', percentage: '49%' },
+  { id: 'L9', x: 460, y: 130, label: 'L9', color: '#eecbbe', percentage: '65%' },
+  { id: 'L10', x: 460, y: 200, label: 'L10', color: '#e6bdad', percentage: '52%' },
+  { id: 'L11', x: 460, y: 270, label: 'L11', color: '#eecbbe', percentage: '48%' },
+  { id: 'L12', x: 600, y: 60, label: 'L12', color: '#e9c5b6', percentage: '21%' },
   { id: 'L13', x: 600, y: 130, label: 'L13' },
   { id: 'L14', x: 600, y: 200, label: 'L14' },
   { id: 'L15', x: 600, y: 270, label: 'L15' },
@@ -97,7 +98,7 @@ export default function NeuralNetwork() {
               cy={node.y + 20}
               r={node.isOutput ? 24 : 20}
               fill={node.color || (inputNodes.includes(node) ? '#30302e' : '#faf9f5')}
-              stroke={node.color ? 'none' : '#e8e6dc'}
+              stroke={node.color ? '#d4a090' : '#e8e6dc'}
               strokeWidth="1"
             />
             <text
